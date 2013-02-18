@@ -80,7 +80,7 @@
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton x:Name="mButton"        IconUri="/Resourses/appbar.search.png"       Click="mButton_Click" Text="pesquisar"/>
+            <shell:ApplicationBarIconButton x:Name="mButton"        IconUri="/Resourses/appbar.search.png"       Click="ConsultarServer" Text="pesquisar"/>
             <!--<shell:ApplicationBarIconButton x:Name="mButtonDelete"   IconUri="/Resourses/ApplicationBar.Cancel.png"                Text="Excluir"/>-->
             <!--<shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="MenuItem 1"/>

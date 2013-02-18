@@ -22,7 +22,7 @@ namespace WebService
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         public PhoneApplicationFrame RootFrame { get; private set; }
-
+        private const string conn = @"isostore:/visaVale.sdf";
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
@@ -57,6 +57,14 @@ namespace WebService
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
+            using (var ctx = new visaValeDataContext(conn))
+            {
+                if (!ctx.DatabaseExists())
+            {
+                    //ctx.DeleteDatabase();
+                    ctx.CreateDatabase();
+                }
+            }
         }
 
         // Code to execute when the application is launching (eg, from Start)

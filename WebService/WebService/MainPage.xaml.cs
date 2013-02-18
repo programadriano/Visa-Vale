@@ -27,8 +27,8 @@ namespace WebService
     public partial class MainPage : PhoneApplicationPage
     {
         IsolatedStorageSettings _isoSettings;
-        string ISO_KEY_SIMPLE = "Key_simpleIS";        
-
+        string ISO_KEY = "Key_VisaVale";
+        private const string conn = @"isostore:/visaVale.sdf";
         public MainPage()
         {
             InitializeComponent();
@@ -41,12 +41,11 @@ namespace WebService
 
         public void ConsultaCache()
         {
-            if (_isoSettings.Contains(ISO_KEY_SIMPLE))
+            if (_isoSettings.Contains(ISO_KEY))
             {
-                if (_isoSettings[ISO_KEY_SIMPLE].ToString() != "")
+                if (_isoSettings[ISO_KEY].ToString() != "")
                 {
-                    // MessageBox.Show(_isoSettings[ISO_KEY_SIMPLE].ToString());
-                    tbox1.Text = _isoSettings[ISO_KEY_SIMPLE].ToString();
+                    tbox1.Text = _isoSettings[ISO_KEY].ToString();
                     cbx1.IsChecked = true;
                 }
                 else
@@ -64,11 +63,11 @@ namespace WebService
 
                 if (cbx1.IsChecked == true)
                 {
-                    _isoSettings[ISO_KEY_SIMPLE] = tbox1.Text;
+                    _isoSettings[ISO_KEY] = tbox1.Text;
                 }
                 else
                 {
-                    _isoSettings[ISO_KEY_SIMPLE] = "";
+                    _isoSettings[ISO_KEY] = "";
                 }
 
                 HtmlNodeCollection table = e.Document.DocumentNode.SelectNodes("//*[@class='consulta ']");
@@ -139,7 +138,33 @@ namespace WebService
                     c.Add(new VisaValeGastos() { Local = ((System.Xml.Linq.XElement)(item)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item)).Value.Substring(((System.Xml.Linq.XElement)(item)).Value.IndexOf("R$")) });
                 }
 
-                c.Reverse();               
+                c.Reverse();
+
+                using (var ctx = new visaValeDataContext(conn))
+                {
+                    IList<VisaValeGastos> testeat = new List<VisaValeGastos>();
+                    var infoVisa = new VisaVale1
+                    {
+                        DataConsulta = info.DataConsulta,
+                        DataProximoBeneficio = info.DataProximoBeneficio,
+                        DataUltimoBeneficioDataBeneficio = info.DataUltimoBeneficioDataBeneficio,
+                        GetSaldo = info.getSaldo,
+                        ValorProximoBeneficio = info.ValorProximoBeneficio,
+                        ValorUltimoBeneficio = info.ValorUltimoBeneficio,
+                            
+                    };
+
+                    foreach (var item in c)
+                    {
+                        
+                    }
+
+
+                    ctx.VisaVales.InsertOnSubmit(infoVisa);
+                    //ctx.SubmitChanges();                   
+
+
+                }
 
                 listaGastos.ItemsSource = c;
                 listaGastos.Foreground = new SolidColorBrush(Colors.Black);
@@ -189,7 +214,7 @@ namespace WebService
                 var newButton = new ApplicationBarIconButton();
                 newButton.IconUri = new Uri("/Resourses/appbar.refresh.png", UriKind.Relative);
                 newButton.Text = "update";
-                newButton.Click += mButton_Click;
+                newButton.Click += ConsultarServer;
 
                 this.ApplicationBar.Buttons.Add(newButton);
                 stackPanel.Visibility = Visibility.Collapsed;
@@ -212,7 +237,7 @@ namespace WebService
 
         }
 
-        private void mButton_Click(object sender, EventArgs e)
+        private void ConsultarServer(object sender, EventArgs e)
         {
             if (tbox1.Text.Length < 16)
             {
