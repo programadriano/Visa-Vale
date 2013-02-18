@@ -27,7 +27,7 @@ namespace WebService
     public partial class MainPage : PhoneApplicationPage
     {
         IsolatedStorageSettings _isoSettings;
-        string ISO_KEY_SIMPLE = "Key_simpleIS";
+        string ISO_KEY_SIMPLE = "Key_simpleIS";        
 
         public MainPage()
         {
@@ -73,9 +73,6 @@ namespace WebService
 
                 HtmlNodeCollection table = e.Document.DocumentNode.SelectNodes("//*[@class='consulta ']");
 
-                var a = table[0].InnerHtml.Replace(" class=\"rowTable\"", "").Replace(" width=\"300px\"", "").Replace(" class=\"corUm\" colspan=\"2\" align=\"left\"", "");
-                a = a.Replace(" class=\"corUm\" align=\"left\"", "").Replace(" class=\"corUm\" align=\"right\"", "");
-
                 var appBar = table[2].InnerHtml.Replace(" class=\"rowTable\"", "").Replace(" style=\"width:50px\"", "").Replace(" style=\"width:400px\"", "").Replace(" class=\"corUm\" align=\"right\"", "").Replace("&nbsp;", "");
                 appBar = appBar.Insert(0, "<xml>").Insert(appBar.Length - 1, "</xml>");
 
@@ -119,7 +116,7 @@ namespace WebService
                     else if (item.XPath == "/html[1]/body[1]/table[1]/tr[4]/td[2]")
                     {
                         // MessageBox.Show(item.InnerHtml);
-                        info.DataProximoBeneficioDataBeneficio = item.InnerHtml;
+                        info.DataProximoBeneficio = item.InnerHtml;
                         // MessageBox.Show(item.InnerHtml);
                     }
                     /// valor proximo
@@ -128,16 +125,21 @@ namespace WebService
                         info.ValorProximoBeneficio = item.InnerHtml;
                         // MessageBox.Show(item.InnerHtml);
                     }
+                    else if (item.XPath == "/html[1]/body[1]/table[1]/tr[1]/td[2]")
+                    {
+                        info.DataConsulta = item.InnerHtml.Substring(0, 10);
+                    }
+
                 }
 
-                List<Consulta> c = new List<Consulta>();
+                List<VisaValeGastos> c = new List<VisaValeGastos>();
 
                 foreach (var item in xDoc.Root.Nodes())
                 {
-                    c.Add(new Consulta() { Local = ((System.Xml.Linq.XElement)(item)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item)).Value.Substring(((System.Xml.Linq.XElement)(item)).Value.IndexOf("R$")) });
+                    c.Add(new VisaValeGastos() { Local = ((System.Xml.Linq.XElement)(item)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item)).Value.Substring(((System.Xml.Linq.XElement)(item)).Value.IndexOf("R$")) });
                 }
 
-                c.Reverse();
+                c.Reverse();               
 
                 listaGastos.ItemsSource = c;
                 listaGastos.Foreground = new SolidColorBrush(Colors.Black);
@@ -155,7 +157,7 @@ namespace WebService
                 tblText.DataContext = "Último benefício";
                 tblLast.DataContext = info.ValorUltimoBeneficio.Substring(6);
 
-                tblDateNext.DataContext = info.DataProximoBeneficioDataBeneficio != "" ? info.DataProximoBeneficioDataBeneficio : "N/D";
+                tblDateNext.DataContext = info.DataProximoBeneficio != "" ? info.DataProximoBeneficio : "N/D";
                 tblTextNext.DataContext = "Próximo benefício";
                 tblLastNext.DataContext = info.ValorProximoBeneficio.Substring(6) != "" ? info.ValorProximoBeneficio.Substring(6) : "N/D";
 
@@ -172,8 +174,9 @@ namespace WebService
                 tblDateNext.Visibility = Visibility.Visible;
                 tblTextNext.Visibility = Visibility.Visible;
                 tblLastNext.Visibility = Visibility.Visible;
-
+                tblDataPesquisa.Visibility = Visibility.Visible;
                 tblDetalhe.Visibility = Visibility.Visible;
+                tblDataPesquisa.DataContext = "Data da pesquisa: " + info.DataConsulta;
                 title.DataContext = "Extrato";
                 title.FontSize = 30;
 
@@ -194,7 +197,15 @@ namespace WebService
             }
             else
             {
-                Thread.Sleep(5000);
+
+                //Dispatcher.BeginInvoke(() =>
+                //{
+                //    MessageBox.Show("hello!");
+                //});
+
+                this.progressBar.IsIndeterminate = false;
+                //   Thread.Sleep(5000);
+                //this.progressBar.IsIndeterminate = false;
                 stackPanel.Visibility = Visibility.Collapsed;
             }
 
@@ -207,7 +218,7 @@ namespace WebService
             {
                 MessageBox.Show("Número de catão inválido!");
             }
-            else 
+            else
             {
                 stackPanel.Visibility = Visibility.Visible;
                 this.progressBar.IsIndeterminate = true;
@@ -215,7 +226,7 @@ namespace WebService
                 wc.LoadAsync("http://www.cartoesbeneficio.com.br/inst/convivencia/SaldoExtrato.jsp?numeroCartao=" + tbox1.Text + "", Encoding.UTF8);
                 wc.LoadCompleted += DownloadStringCompleted;
             }
-            
+
         }
     }
 
@@ -226,12 +237,12 @@ namespace WebService
         public string NumeroCartao { get; set; }
         public string DataUltimoBeneficioDataBeneficio { get; set; }
         public string ValorUltimoBeneficio { get; set; }
-        public string DataProximoBeneficioDataBeneficio { get; set; }
+        public string DataProximoBeneficio { get; set; }
         public string ValorProximoBeneficio { get; set; }
         public string getSaldo { get; set; }
     }
 
-    public class Consulta
+    public class VisaValeGastos
     {
         public string Data { get; set; }
         public string Local { get; set; }

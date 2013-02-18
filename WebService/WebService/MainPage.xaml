@@ -42,7 +42,8 @@
             </StackPanel>
             <TextBox Height="72" HorizontalAlignment="Left" Margin="0,51,0,0" InputScope="Number"  Name="tbox1" Text="" VerticalAlignment="Top" Width="460" />
             <TextBlock FontWeight="Bold" FontSize="22" Height="30" HorizontalAlignment="Left" Margin="12,28,0,0" Name="tbloc1" Text="Numero do cartão:" VerticalAlignment="Top" Width="213" />
-            <my1:C1FlexGrid  Margin="12,148,0,0" Name="listaGastos"/>
+            <my1:C1FlexGrid  Margin="12,148,0,0" Name="listaGastos"/> 
+            
             <Grid Margin="12,13,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"></RowDefinition>
@@ -72,8 +73,8 @@
                 <!--<TextBlock  Name="tblSaldo" FontSize="24" FontWeight="Bold" Text="{Binding}"    Visibility="Collapsed"  />
                 <TextBlock  Name="tblNext"  FontSize="24" FontWeight="Bold" Text="{Binding}"    Visibility="Collapsed"  />-->
             </Grid>
-
         </Grid>
+        <TextBlock Height="30" HorizontalAlignment="Left" Margin="191,23,0,0" Name="tblDataPesquisa" Text="{Binding}" Visibility="Collapsed" VerticalAlignment="Top" Width="262" Grid.RowSpan="2" />
     </Grid>
 
     <!--Sample code showing usage of ApplicationBar-->
