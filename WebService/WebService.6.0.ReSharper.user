@@ -1,0 +1,90 @@
+<Configuration>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:App.xaml.cs" caret="4203" fromTop="20" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml" caret="1682" fromTop="30" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="1951" fromTop="10" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="14" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="8" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="13" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2879" fromTop="34" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="0" fromTop="1" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="14" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="19" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="16" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="20" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="0" fromTop="5" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="189" fromTop="1" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2879" fromTop="13" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2879" fromTop="5" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2879" fromTop="58" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2879" fromTop="34" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="8" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="43" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="22" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="18" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="5" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="464" fromTop="0" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="34" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2879" fromTop="34" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2539" fromTop="12" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2876" fromTop="29" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2520" fromTop="34" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="1499" fromTop="14" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="301" fromTop="13" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="428" fromTop="0" />
+      <File id="BED42BB5-AAA9-464C-BDFD-F95267F3EA0F/f:MainPage.xaml.cs" caret="2407" fromTop="17" />
+    </RecentEdits>
+  </RecentFiles>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="CSharpCodeCompletionContext">
+      <Item value="new" priority="191" />
+      <Item value="Customer" priority="57" />
+      <Item value="Name" priority="95" />
+      <Item value="string" priority="31" />
+      <Item value="c2" priority="31" />
+      <Item value="array" priority="31" />
+      <Item value="var" priority="127" />
+      <Item value="Customer`0" priority="31" />
+      <Item value="UserControl`0" priority="31" />
+      <Item value="ms" priority="31" />
+      <Item value="Serialization" priority="22" />
+      <Item value="DataContractJsonSerializer" priority="57" />
+      <Item value="User" priority="58" />
+      <Item value="user" priority="159" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.MemoryStream">
+      <Item value="GetBuffer`0" priority="26" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Text.Encoding">
+      <Item value="UTF8" priority="106" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.Stream">
+      <Item value="Write`0" priority="26" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:WebService.User">
+      <Item value="Name" priority="26" />
+      <Item value="Age" priority="81" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerNUnit>
+    <NUnitInstallDir IsNull="False">
+    </NUnitInstallDir>
+    <UseAddins>Never</UseAddins>
+  </UnitTestRunnerNUnit>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+</Configuration>

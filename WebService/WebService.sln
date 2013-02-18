@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService", "WebService\WebService.csproj", "{BED42BB5-AAA9-464C-BDFD-F95267F3EA0F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BED42BB5-AAA9-464C-BDFD-F95267F3EA0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BED42BB5-AAA9-464C-BDFD-F95267F3EA0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BED42BB5-AAA9-464C-BDFD-F95267F3EA0F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BED42BB5-AAA9-464C-BDFD-F95267F3EA0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BED42BB5-AAA9-464C-BDFD-F95267F3EA0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BED42BB5-AAA9-464C-BDFD-F95267F3EA0F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
