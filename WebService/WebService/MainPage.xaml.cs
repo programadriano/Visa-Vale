@@ -142,7 +142,7 @@ namespace WebService
 
                 using (var ctx = new visaValeDataContext(conn))
                 {
-                    IList<VisaValeGastos> testeat = new List<VisaValeGastos>();
+                    
                     var infoVisa = new VisaVale1
                     {
                         DataConsulta = info.DataConsulta,
@@ -151,17 +151,18 @@ namespace WebService
                         GetSaldo = info.getSaldo,
                         ValorProximoBeneficio = info.ValorProximoBeneficio,
                         ValorUltimoBeneficio = info.ValorUltimoBeneficio,
-                            
-                    };
-
-                    foreach (var item in c)
-                    {
                         
+                    };
+                    foreach (var item in xDoc.Root.Nodes())
+                    {
+                        infoVisa.VisaValeGastos.Add(new VisaValeGasto { Local = ((System.Xml.Linq.XElement)(item)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item)).Value.Substring(((System.Xml.Linq.XElement)(item)).Value.IndexOf("R$")) });
                     }
-
+                   
 
                     ctx.VisaVales.InsertOnSubmit(infoVisa);
-                    //ctx.SubmitChanges();                   
+                    ctx.SubmitChanges(); 
+                  
+
 
 
                 }

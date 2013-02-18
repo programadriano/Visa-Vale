@@ -60,10 +60,13 @@ namespace WebService
             using (var ctx = new visaValeDataContext(conn))
             {
                 if (!ctx.DatabaseExists())
-            {
+                {
                     //ctx.DeleteDatabase();
                     ctx.CreateDatabase();
                 }
+
+                var teste = ctx.VisaVales.ToList();
+
             }
         }
 
