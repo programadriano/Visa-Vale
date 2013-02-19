@@ -144,7 +144,6 @@ namespace WebService
 
                 c.Reverse();
 
-
                 Dispatcher.BeginInvoke(() =>
                 {
                     Save();
@@ -203,13 +202,91 @@ namespace WebService
                 this.ApplicationBar.Buttons.Add(newButton);
                 stackPanel.Visibility = Visibility.Collapsed;
                 this.progressBar.IsIndeterminate = false;
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    Save();
+                });
+
+                
             }
             else
             {
 
                 using (var ctx = new visaValeDataContext(conn))
                 {
+                    
+                    foreach (var item in ctx.VisaVales)
+                    {
+                        if (item.Id == 1)
+                        {
+                            tblDate.DataContext = item.DataUltimoBeneficioDataBeneficio;
+                            tblText.DataContext = "Último benefício";
+                            tblLast.DataContext = item.ValorUltimoBeneficio.Substring(6);
 
+                            tblDateNext.DataContext = item.DataProximoBeneficio != "" ? item.DataProximoBeneficio : "N/D";
+                            tblTextNext.DataContext = "Próximo benefício";
+                            tblLastNext.DataContext = item.ValorProximoBeneficio != "" ? info.ValorProximoBeneficio : "N/D";
+
+                            tblTextSaldo.DataContext = "Saldo atual";
+                            tblSaldo.DataContext = item.GetSaldo;
+
+
+                            tblTextSaldo.Visibility = Visibility.Visible;
+                            tblSaldo.Visibility = Visibility.Visible;
+
+                            tblDate.Visibility = Visibility.Visible;
+                            tblText.Visibility = Visibility.Visible;
+                            tblLast.Visibility = Visibility.Visible;
+
+                            tblDateNext.Visibility = Visibility.Visible;
+                            tblTextNext.Visibility = Visibility.Visible;
+                            tblLastNext.Visibility = Visibility.Visible;
+                            tblDataPesquisa.Visibility = Visibility.Visible;
+                            tblDetalhe.Visibility = Visibility.Visible;
+                            tblDataPesquisa.DataContext = "Data da pesquisa: " + item.DataConsulta;
+                            title.DataContext = "Extrato";
+                            title.FontSize = 30;
+
+
+                            ApplicationBar.Buttons.RemoveAt(0);
+
+
+                            this.ApplicationBar = new ApplicationBar();
+
+                            var newButton = new ApplicationBarIconButton();
+                            newButton.IconUri = new Uri("/Resourses/appbar.refresh.png", UriKind.Relative);
+                            newButton.Text = "update";
+                            newButton.Click += ConsultarServer;
+
+                            this.ApplicationBar.Buttons.Add(newButton);
+                            stackPanel.Visibility = Visibility.Collapsed;
+                            this.progressBar.IsIndeterminate = false;
+
+                            List<VisaValeGastos> listaGastosVisa = new List<VisaValeGastos>();
+
+                            foreach (var item2 in item.VisaValeGastos)
+                            {
+                                listaGastosVisa.Add(new VisaValeGastos { Data = item2.Data, Local = item2.Local, Valor = item2.Valor });
+                            }
+
+
+                            listaGastos.ItemsSource = listaGastosVisa;
+                            listaGastos.Foreground = new SolidColorBrush(Colors.Black);
+                            var coldata = listaGastos.Columns["Data"];
+                            coldata.Width = new GridLength(80);
+                            var colLocal = listaGastos.Columns["Local"];
+                            colLocal.Width = new GridLength(260);
+                            var colValor = listaGastos.Columns["Valor"];
+                            colValor.Width = new GridLength(140);
+                            tbox1.Visibility = Visibility.Collapsed;
+                            tbloc1.Visibility = Visibility.Collapsed;
+                            cbx1.Visibility = Visibility.Collapsed;
+
+
+                            break;
+                        }
+                    }
                 }
                 this.progressBar.IsIndeterminate = false;
                 stackPanel.Visibility = Visibility.Collapsed;
@@ -229,35 +306,32 @@ namespace WebService
                 stackPanel.Visibility = Visibility.Visible;
                 this.progressBar.IsIndeterminate = true;
                 var wc = new HtmlWeb();
-                wc.LoadAsync("http://www.cartoesbeneficio.com.br/inst/convivencia/SaldoExtrato.jsp?numeroCartao=" + tbox1.Text + "", Encoding.UTF8);
+                wc.LoadAsync("http://www.cartoesbeneficio.com.br/inst/convivencia/SaldoExtrato.jsp?numeroCartaos=" + tbox1.Text + "", Encoding.UTF8);
                 wc.LoadCompleted += DownloadStringCompleted;
             }
 
         }
 
-
         public void Save()
         {
             using (var ctx = new visaValeDataContext(conn))
+            
             {
-
-
-
                 if (!ctx.DatabaseExists())
                 {
                     //ctx.DeleteDatabase();
                     ctx.CreateDatabase();
 
                     var infoVisa = new VisaVale1
-                    {
-                        DataConsulta = info.DataConsulta,
-                        DataProximoBeneficio = info.DataProximoBeneficio,
-                        DataUltimoBeneficioDataBeneficio = info.DataUltimoBeneficioDataBeneficio,
-                        GetSaldo = info.getSaldo,
-                        ValorProximoBeneficio = info.ValorProximoBeneficio,
-                        ValorUltimoBeneficio = info.ValorUltimoBeneficio,
+                        {
+                            DataConsulta = info.DataConsulta,
+                            DataProximoBeneficio = info.DataProximoBeneficio,
+                            DataUltimoBeneficioDataBeneficio = info.DataUltimoBeneficioDataBeneficio,
+                            GetSaldo = info.getSaldo,
+                            ValorProximoBeneficio = info.ValorProximoBeneficio,
+                            ValorUltimoBeneficio = info.ValorUltimoBeneficio,
 
-                    };
+                        };
                     foreach (var item2 in xDoc.Root.Nodes())
                     {
                         infoVisa.VisaValeGastos.Add(new VisaValeGasto { Local = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item2)).Value.Substring(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("R$")) });
@@ -283,15 +357,16 @@ namespace WebService
                             foreach (var item2 in xDoc.Root.Nodes())
                             {
                                 item.VisaValeGastos.Add(new VisaValeGasto { Local = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item2)).Value.Substring(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("R$")) });
+
+                                ctx.SubmitChanges();
+                                break;
                             }
-                            ctx.SubmitChanges();
-                            break;
+
                         }
                     }
                 }
             }
         }
-    }
 
 
     public class Informacoes
@@ -312,4 +387,5 @@ namespace WebService
         public string Valor { get; set; }
 
     }
-}
+
+    }}
