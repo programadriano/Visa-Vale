@@ -29,6 +29,10 @@ namespace WebService
         IsolatedStorageSettings _isoSettings;
         string ISO_KEY = "Key_VisaVale";
         private const string conn = @"isostore:/visaVale.sdf";
+
+        private Informacoes info = new Informacoes();
+        private XDocument xDoc;
+
         public MainPage()
         {
             InitializeComponent();
@@ -82,10 +86,10 @@ namespace WebService
                     .Replace(" style=\"width:80px\"", "")
                     .Replace("dispon&iacute;vel:", "");
                 // dispon&iacute;vel:
-                XDocument xDoc = XDocument.Parse(appBar);
+                xDoc = XDocument.Parse(appBar);
                 XDocument xDocSaldo = XDocument.Parse(tableSaldo);
 
-                var info = new Informacoes();
+
 
                 foreach (var item in xDocSaldo.Root.Nodes())
                 {
@@ -140,32 +144,11 @@ namespace WebService
 
                 c.Reverse();
 
-                using (var ctx = new visaValeDataContext(conn))
+
+                Dispatcher.BeginInvoke(() =>
                 {
-                    
-                    var infoVisa = new VisaVale1
-                    {
-                        DataConsulta = info.DataConsulta,
-                        DataProximoBeneficio = info.DataProximoBeneficio,
-                        DataUltimoBeneficioDataBeneficio = info.DataUltimoBeneficioDataBeneficio,
-                        GetSaldo = info.getSaldo,
-                        ValorProximoBeneficio = info.ValorProximoBeneficio,
-                        ValorUltimoBeneficio = info.ValorUltimoBeneficio,
-                        
-                    };
-                    foreach (var item in xDoc.Root.Nodes())
-                    {
-                        infoVisa.VisaValeGastos.Add(new VisaValeGasto { Local = ((System.Xml.Linq.XElement)(item)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item)).Value.Substring(((System.Xml.Linq.XElement)(item)).Value.IndexOf("R$")) });
-                    }
-                   
-
-                    ctx.VisaVales.InsertOnSubmit(infoVisa);
-                    ctx.SubmitChanges(); 
-                  
-
-
-
-                }
+                    Save();
+                });
 
                 listaGastos.ItemsSource = c;
                 listaGastos.Foreground = new SolidColorBrush(Colors.Black);
@@ -224,14 +207,11 @@ namespace WebService
             else
             {
 
-                //Dispatcher.BeginInvoke(() =>
-                //{
-                //    MessageBox.Show("hello!");
-                //});
+                using (var ctx = new visaValeDataContext(conn))
+                {
 
+                }
                 this.progressBar.IsIndeterminate = false;
-                //   Thread.Sleep(5000);
-                //this.progressBar.IsIndeterminate = false;
                 stackPanel.Visibility = Visibility.Collapsed;
             }
 
@@ -253,6 +233,63 @@ namespace WebService
                 wc.LoadCompleted += DownloadStringCompleted;
             }
 
+        }
+
+
+        public void Save()
+        {
+            using (var ctx = new visaValeDataContext(conn))
+            {
+
+
+
+                if (!ctx.DatabaseExists())
+                {
+                    //ctx.DeleteDatabase();
+                    ctx.CreateDatabase();
+
+                    var infoVisa = new VisaVale1
+                    {
+                        DataConsulta = info.DataConsulta,
+                        DataProximoBeneficio = info.DataProximoBeneficio,
+                        DataUltimoBeneficioDataBeneficio = info.DataUltimoBeneficioDataBeneficio,
+                        GetSaldo = info.getSaldo,
+                        ValorProximoBeneficio = info.ValorProximoBeneficio,
+                        ValorUltimoBeneficio = info.ValorUltimoBeneficio,
+
+                    };
+                    foreach (var item2 in xDoc.Root.Nodes())
+                    {
+                        infoVisa.VisaValeGastos.Add(new VisaValeGasto { Local = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item2)).Value.Substring(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("R$")) });
+                    }
+
+                    ctx.VisaVales.InsertOnSubmit(infoVisa);
+                    ctx.SubmitChanges();
+                }
+                else
+                {
+                    foreach (var item in ctx.VisaVales)
+                    {
+                        if (item.Id == 1)
+                        {
+                            item.DataConsulta = info.DataConsulta;
+                            item.DataProximoBeneficio = info.DataProximoBeneficio;
+                            item.DataUltimoBeneficioDataBeneficio = info.DataUltimoBeneficioDataBeneficio;
+                            item.GetSaldo = info.getSaldo;
+                            item.ValorProximoBeneficio = info.ValorProximoBeneficio;
+                            item.ValorUltimoBeneficio = info.ValorUltimoBeneficio;
+
+
+                            foreach (var item2 in xDoc.Root.Nodes())
+                            {
+                                item.VisaValeGastos.Add(new VisaValeGasto { Local = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item2)).Value.Substring(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("R$")) });
+                            }
+                            ctx.SubmitChanges();
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 

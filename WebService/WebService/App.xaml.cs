@@ -57,17 +57,6 @@ namespace WebService
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
-            using (var ctx = new visaValeDataContext(conn))
-            {
-                if (!ctx.DatabaseExists())
-                {
-                    //ctx.DeleteDatabase();
-                    ctx.CreateDatabase();
-                }
-
-                var teste = ctx.VisaVales.ToList();
-
-            }
         }
 
         // Code to execute when the application is launching (eg, from Start)
