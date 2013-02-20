@@ -44,11 +44,7 @@ namespace WebService
 			OnCreated();
 		}
 		
-        //public visaValeDataContext(System.Data.IDbConnection connection) : 
-        //        base(connection, mappingSource)
-        //{
-        //    OnCreated();
-        //}
+	
 		
 		public visaValeDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
@@ -56,11 +52,7 @@ namespace WebService
 			OnCreated();
 		}
 		
-        //public visaValeDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
-        //        base(connection, mappingSource)
-        //{
-        //    OnCreated();
-        //}
+		
 		
 		public System.Data.Linq.Table<VisaVale1> VisaVales
 		{
@@ -101,6 +93,8 @@ namespace WebService
 		
 		private string _GetSaldo;
 		
+		private System.Nullable<bool> _SalvarDados;
+		
 		private EntitySet<VisaValeGasto> _VisaValeGastos;
 		
     #region Extensibility Method Definitions
@@ -123,6 +117,8 @@ namespace WebService
     partial void OnValorProximoBeneficioChanged();
     partial void OnGetSaldoChanging(string value);
     partial void OnGetSaldoChanged();
+    partial void OnSalvarDadosChanging(System.Nullable<bool> value);
+    partial void OnSalvarDadosChanged();
     #endregion
 		
 		public VisaVale1()
@@ -287,6 +283,26 @@ namespace WebService
 					this._GetSaldo = value;
 					this.SendPropertyChanged("GetSaldo");
 					this.OnGetSaldoChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_SalvarDados", DbType="Bit")]
+		public System.Nullable<bool> SalvarDados
+		{
+			get
+			{
+				return this._SalvarDados;
+			}
+			set
+			{
+				if ((this._SalvarDados != value))
+				{
+					this.OnSalvarDadosChanging(value);
+					this.SendPropertyChanging();
+					this._SalvarDados = value;
+					this.SendPropertyChanged("SalvarDados");
+					this.OnSalvarDadosChanged();
 				}
 			}
 		}

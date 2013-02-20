@@ -96,18 +96,15 @@
     <None Include="Properties\WMAppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ApplicationIcon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Background.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="ApplicationIcon.png" />
+    <Content Include="background.jpg" />
     <Content Include="Reference\HtmlAgilityPack.dll" />
     <Content Include="Resourses\appbar.refresh.png" />
     <Content Include="Resourses\appbar.search.png" />
     <Content Include="Resourses\ApplicationBar.Cancel.png" />
     <Content Include="Resourses\app_bkg.png" />
     <Content Include="SplashScreenImage.jpg" />
+    <Content Include="Visa-Vale.jpg" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />

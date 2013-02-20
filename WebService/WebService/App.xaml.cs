@@ -12,6 +12,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Globalization;
+using System.Threading;
 
 namespace WebService
 {
@@ -43,6 +45,13 @@ namespace WebService
                 // Display the current frame rate counters.
                 Application.Current.Host.Settings.EnableFrameRateCounter = false;
 
+
+                String cul;
+                cul = "pt-BR";
+                CultureInfo newCulture = new CultureInfo(cul);
+                Thread.CurrentThread.CurrentCulture = newCulture;
+                Thread.CurrentThread.CurrentUICulture = newCulture;
+
                 // Show the areas of the app that are being redrawn in each frame.
                 //Application.Current.Host.Settings.EnableRedrawRegions = true;
 
@@ -55,6 +64,15 @@ namespace WebService
                 // Caution:- Use this under debug mode only. Application that disables user idle detection will continue to run
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
+
+                //using (var ctx = new visaValeDataContext(conn))
+                //{
+                //    if (ctx.DatabaseExists())
+                //    {
+                //        ctx.DeleteDatabase();
+                //        //ctx.CreateDatabase();
+                //    }
+                //}
             }
 
         }
