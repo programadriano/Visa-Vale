@@ -1,0 +1,7 @@
+C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\VisaValeTaskAgent\Bin\Release\VisaValeTaskAgent.dll
+C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\VisaValeTaskAgent\Bin\Release\VisaValeTaskAgent.pdb
+C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\VisaValeTaskAgent\Bin\Release\Dominio.dll
+C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\VisaValeTaskAgent\Bin\Release\Dominio.pdb
+C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\VisaValeTaskAgent\obj\Release\VisaValeTaskAgent.csprojResolveAssemblyReference.cache
+C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\VisaValeTaskAgent\obj\Release\VisaValeTaskAgent.dll
+C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\VisaValeTaskAgent\obj\Release\VisaValeTaskAgent.pdb

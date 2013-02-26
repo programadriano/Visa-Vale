@@ -1,9 +1,6 @@
 <MarketplaceDetails>
-  <SmallAppTile>
-  </SmallAppTile>
-  <LargeAppTile>
-  </LargeAppTile>
-  <PCAppTile>
-  </PCAppTile>
-  <ScreenShots>;;;;;;;;</ScreenShots>
+  <SmallAppTile>credit_cards (5)_99.png</SmallAppTile>
+  <LargeAppTile>BackgroundTile.png</LargeAppTile>
+  <PCAppTile>credit_cards (5)_200.png</PCAppTile>
+  <ScreenShots>miniTile.png;tile.png;Pesquisando.png;Saldo.png;;;;;</ScreenShots>
 </MarketplaceDetails>

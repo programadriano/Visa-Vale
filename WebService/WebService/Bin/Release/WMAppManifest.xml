@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{48b2f0ad-a1de-4d2d-b357-df03ad8bfc1d}" Title="Visa Vale" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WebService author" Description="Sample description" Publisher="WebService">
+  <App xmlns="" ProductID="{48b2f0ad-a1de-4d2d-b357-df03ad8bfc1d}" Title="Consulta Visa Vale" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WebService author" Description="Sample description" Publisher="WebService">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES" />
@@ -20,13 +20,15 @@
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
+      <ExtendedTask Name="BackgroundTask">
+        <BackgroundServiceAgent Specifier="ScheduledTaskAgent" Name="VisaValeTaskAgent" Source="VisaValeTaskAgent" Type="VisaValeTaskAgent.ScheduledAgent" />
+      </ExtendedTask>
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="WebServiceToken" TaskName="_default">
         <TemplateType5>
-          <BackgroundImageURI IsRelative="true" IsResource="false">background.jpg</BackgroundImageURI>
-          <Count>0</Count>
-          <Title>Visa Vale</Title>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Background.png</BackgroundImageURI>
+          <Title>Consulta VisaVale</Title>
         </TemplateType5>
       </PrimaryToken>
     </Tokens>

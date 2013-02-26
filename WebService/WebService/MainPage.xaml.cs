@@ -12,12 +12,22 @@ using System.Runtime.Serialization;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Linq;
 using System.Xml.Linq;
 using System.Windows.Media;
 using System.IO.IsolatedStorage;
 using Microsoft.Phone.Shell;
 using System.Threading;
 using Microsoft.Phone.Scheduler;
+using System.Windows.Media.Imaging;
+using System.Windows.Controls;
+using System.Windows.Resources;
+using System.IO.IsolatedStorage;
+using System.Windows.Media.Imaging;
+using System.IO;
+using System.Windows.Resources;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Phone.Tasks;
 
 namespace WebService
 {
@@ -29,10 +39,6 @@ namespace WebService
         IsolatedStorageSettings _isoSettings;
         private const string conn = @"isostore:/visaVale.sdf";
 
-        PeriodicTask periodicTask;
-        string taskNome = "Uma Task";
-
-
         private Informacoes info = new Informacoes();
         private XDocument xDoc;
 
@@ -42,7 +48,7 @@ namespace WebService
             title.DataContext = "CONSULTA CARTÕES VISA VALE";
             title.FontSize = 26;
             _isoSettings = IsolatedStorageSettings.ApplicationSettings;
-
+           // RegistrarAgente();
             ConsultaCache();
         }
 
@@ -353,60 +359,45 @@ namespace WebService
                 ctx.VisaVales.InsertOnSubmit(infoVisa);
                 ctx.SubmitChanges();
             }
-            //else
-            //{
-            //    foreach (var item in ctx.VisaVales)
-            //    {
-            //        if (item.Id == 1)
-            //        {
-            //            item.DataConsulta = info.DataConsulta;
-            //            item.DataProximoBeneficio = info.DataProximoBeneficio;
-            //            item.DataUltimoBeneficioDataBeneficio = info.DataUltimoBeneficioDataBeneficio;
-            //            item.GetSaldo = info.getSaldo;
-            //            item.ValorProximoBeneficio = info.ValorProximoBeneficio;
-            //            item.ValorUltimoBeneficio = info.ValorUltimoBeneficio;
-            //            item.SalvarDados = cbx1.IsChecked;
-            //            item.NumeroCartao = info.NumeroCartao;
 
-            //            foreach (var item2 in xDoc.Root.Nodes())
-            //            {
-            //                item.VisaValeGastos.Add(new VisaValeGasto { Local = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item2)).Value.Substring(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("R$")) });                               
-            //            }                            
-            //        }
-            //        ctx.SubmitChanges();
-            //        break;
-            //    }
-            //}
-            //   }
         }
 
         void RegistrarAgente()
         {
-            periodicTask = ScheduledActionService.Find(taskNome) as PeriodicTask;
+            //start background agent 
+            PeriodicTask periodicTask = new PeriodicTask("PeriodicAgent");
 
-            if (periodicTask != null)
-                ScheduledActionService.Remove(taskNome);
-
-            periodicTask = new PeriodicTask(taskNome);
-
-            periodicTask.Description = "Uma Task de exemplo";
-
-            try
+            periodicTask.Description = "My live tile periodic task";
+            periodicTask.ExpirationTime = System.DateTime.Now.AddDays(1);
+         
+            if (ScheduledActionService.Find(periodicTask.Name) != null)
             {
-                ScheduledActionService.Add(periodicTask);
+                ScheduledActionService.Remove("PeriodicAgent");
+            }
+         
+            ScheduledActionService.Add(periodicTask);
 
-#if(DEBUG_AGENT)
-                 ScheduledActionService.LaunchForTest(taskNome, TimeSpan.FromSeconds(60));
-#endif
-            }
-            catch (InvalidOperationException ex)
+
+            ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("TileID=2"));
+                       
+
+            if (TileToFind == null)
             {
-                //Bg agentes não habilitados  - exceções IO
+                StandardTileData NewTileData = new StandardTileData();   
+                NewTileData.Title = "First";
+                NewTileData.Count = 1;
+                NewTileData.BackTitle = "Second";
+                NewTileData.BackContent = "Second content";
+                NewTileData.BackBackgroundImage = new Uri("isostore:/Shared/ShellContent/testtile.jpg", UriKind.Absolute);
+                
+
+                //TileToFind.Update(NewTileData);
+                ShellTile.Create(new Uri("/MainPage.xaml?TileID=2", UriKind.Relative), NewTileData);
+                // ShellTile.ActiveTiles(new Uri("/MainPage.xaml?TileID=2", UriKind.Relative), NewTileData);
             }
-            catch (SchedulerServiceException)
-            {
-                //ex de serviço
-            }
+
+            ScheduledActionService.LaunchForTest("PeriodicAgent", TimeSpan.FromMilliseconds(1500));
+
         }
 
         public class Informacoes

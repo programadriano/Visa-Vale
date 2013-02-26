@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService", "WebService\WebService.csproj", "{BED42BB5-AAA9-464C-BDFD-F95267F3EA0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisaValeTaskAgent", "VisaValeTaskAgent\VisaValeTaskAgent.csproj", "{539ECFE7-899D-4A6E-B882-BE2E9476CCCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{0871B0EE-2EFD-4A5F-89C5-372EE16E3C95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{BED42BB5-AAA9-464C-BDFD-F95267F3EA0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BED42BB5-AAA9-464C-BDFD-F95267F3EA0F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BED42BB5-AAA9-464C-BDFD-F95267F3EA0F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{539ECFE7-899D-4A6E-B882-BE2E9476CCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{539ECFE7-899D-4A6E-B882-BE2E9476CCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{539ECFE7-899D-4A6E-B882-BE2E9476CCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{539ECFE7-899D-4A6E-B882-BE2E9476CCCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0871B0EE-2EFD-4A5F-89C5-372EE16E3C95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0871B0EE-2EFD-4A5F-89C5-372EE16E3C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0871B0EE-2EFD-4A5F-89C5-372EE16E3C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0871B0EE-2EFD-4A5F-89C5-372EE16E3C95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

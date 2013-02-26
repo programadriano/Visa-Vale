@@ -1,11 +1,23 @@
 ﻿using System.Windows;
 using Microsoft.Phone.Scheduler;
+using Microsoft.Phone.Shell;
+using System.Linq;
+using System;
+using WebService;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.IO.IsolatedStorage;
+using System.IO;
+
+
 
 namespace VisaValeTaskAgent
 {
     public class ScheduledAgent : ScheduledTaskAgent
     {
         private static volatile bool _classInitialized;
+        private const string conn = @"isostore:/visaVale.sdf";
         //http://social.technet.microsoft.com/wiki/pt-br/contents/articles/9901.windows-phone-background-agents-atualize-o-tile-de-sua-aplicacao.aspx
         /// <remarks>
         /// ScheduledAgent constructor, initializes the UnhandledException handler
@@ -44,12 +56,47 @@ namespace VisaValeTaskAgent
         /// </remarks>
         protected override void OnInvoke(ScheduledTask task)
         {
-            //TODO: Add code to perform your task in background
+            //string value = "";
+            //string text = "";                        
+
+            //using (var ctx = new visaValeDataContext(conn))
+            //{
+
+            //    if (ctx.DatabaseExists())
+            //    {
+            //        foreach (var item in ctx.VisaVales)
+            //        {
+            //            if (item.Id == 1)
+            //            {
+            //                value = item.GetSaldo;
+            //                text = item.DataConsulta;
+            //            }
+            //        }
+            //    }
+
+            //    // Execute periodic task actions here.
+            //    ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("TileID=2"));
+            //    if (TileToFind != null)
+            //    {
+            //        TileToFind.Update(new StandardTileData
+            //        {
+            //            Title = "vvvv",
+            //            BackgroundImage = new Uri("isostore:/Shared/ShellContent/testtile.jpg", UriKind.Absolute),
+            //            BackBackgroundImage = new Uri("isostore:/Shared/ShellContent/testtile.jpg", UriKind.Absolute),
+            //            BackTitle = "yyyy",
+            //            BackContent = "iiiiiiiii"
+            //        });
+
+            //      //  TileToFind.Update(NewTileData);
+            //    }
+
+               
+            //}
+
+           
 
             NotifyComplete();
-
-
-
         }
+
     }
 }

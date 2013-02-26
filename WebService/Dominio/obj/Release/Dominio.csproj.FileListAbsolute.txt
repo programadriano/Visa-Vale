@@ -1,0 +1,4 @@
+C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\Dominio\Bin\Release\Dominio.dll
+C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\Dominio\Bin\Release\Dominio.pdb
+C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\Dominio\obj\Release\Dominio.dll
+C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\Dominio\obj\Release\Dominio.pdb

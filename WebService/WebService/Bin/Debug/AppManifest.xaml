@@ -3,8 +3,9 @@
     <AssemblyPart x:Name="WebService" Source="WebService.dll" />
     <AssemblyPart x:Name="C1.Phone" Source="C1.Phone.dll" />
     <AssemblyPart x:Name="C1.Phone.FlexGrid" Source="C1.Phone.FlexGrid.dll" />
+    <AssemblyPart x:Name="Dominio" Source="Dominio.dll" />
     <AssemblyPart x:Name="HtmlAgilityPack" Source="HtmlAgilityPack.dll" />
-    <AssemblyPart x:Name="Newtonsoft.Json" Source="Newtonsoft.Json.dll" />
     <AssemblyPart x:Name="System.Xml.XPath" Source="System.Xml.XPath.dll" />
+    <AssemblyPart x:Name="VisaValeTaskAgent" Source="VisaValeTaskAgent.dll" />
   </Deployment.Parts>
 </Deployment>
