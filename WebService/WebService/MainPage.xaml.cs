@@ -48,7 +48,7 @@ namespace WebService
             title.DataContext = "CONSULTA CARTÕES VISA VALE";
             title.FontSize = 26;
             _isoSettings = IsolatedStorageSettings.ApplicationSettings;
-           // RegistrarAgente();
+            // RegistrarAgente();
             ConsultaCache();
         }
 
@@ -82,86 +82,126 @@ namespace WebService
             {
                 HtmlNodeCollection table = e.Document.DocumentNode.SelectNodes("//*[@class='consulta ']");
 
-                var appBar = table[2].InnerHtml.Replace(" class=\"rowTable\"", "").Replace(" style=\"width:50px\"", "").Replace(" style=\"width:400px\"", "").Replace(" class=\"corUm\" align=\"right\"", "").Replace("&nbsp;", "");
+                var appBar = table[2].InnerHtml.Replace(" colspan=\"3\"", "").Replace(" align=\"center\"", "").Replace(" class=\"rowTable\"", "").Replace(" style=\"width:50px\"", "").Replace(" style=\"width:400px\"", "").Replace(" class=\"corUm\" align=\"right\"", "").Replace("&nbsp;", "");
+
                 appBar = appBar.Insert(0, "<xml>").Insert(appBar.Length - 1, "</xml>");
 
                 var tableSaldo = table[3].InnerHtml.Replace(" class=\"rowTable\"", "")
-                    .Replace(" class=\"corUm fontWeightDois\"", "")
-                    .Replace(" align=\"right\"", "")
-                    .Replace(" class=\"corUm fontWeightDois\"", "")
-                    .Replace(" style=\"width:80px\"", "")
-                    .Replace("dispon&iacute;vel:", "");
-                // dispon&iacute;vel:
-                xDoc = XDocument.Parse(appBar);
-                XDocument xDocSaldo = XDocument.Parse(tableSaldo);
+                  .Replace(" class=\"corUm fontWeightDois\"", "")
+                  .Replace(" align=\"right\"", "")
+                  .Replace(" class=\"corUm fontWeightDois\"", "")
+                  .Replace(" style=\"width:80px\"", "")
+                  .Replace("dispon&iacute;vel:", "");
 
-
-
-                foreach (var item in xDocSaldo.Root.Nodes())
+                if (appBar.Contains("N&atilde;o h&aacute; movimenta&ccedil;&otilde;es para o per&iacute;odo selecionado."))
                 {
-                    if (((System.Xml.Linq.XElement)(item)).Value.ToString().Contains("$"))
+                    if (appBar.Contains("N&atilde;o h&aacute; movimenta&ccedil;&otilde;es para o per&iacute;odo selecionado."))
                     {
-                        info.getSaldo = ((System.Xml.Linq.XElement)(item)).Value.ToString();
-                        //MessageBox.Show(((System.Xml.Linq.XElement)(item)).Value.ToString());
+                        foreach (var item in table.Descendants("td"))
+                        {
+                            var text = item.InnerHtml;
+
+                            if (item.XPath == "/html[1]/body[1]/table[1]/tr[1]/td[2]")
+                            {
+                                info.DataConsulta = item.InnerHtml;
+                            }
+                            else if (item.XPath == "/html[1]/body[1]/table[1]/tr[3]/td[2]")
+                            {
+                                info.DataUltimoBeneficioDataBeneficio = item.InnerHtml;
+                            }
+                            else if (item.XPath == "/html[1]/body[1]/table[1]/tr[3]/td[3]")
+                            {
+                                info.ValorUltimoBeneficio = item.InnerHtml;
+                            }
+
+                        }
+
+                        xDoc = XDocument.Parse(tableSaldo);
+                        tbtMessage.Visibility = Visibility.Visible;
+                    }
+                }
+                else
+                {
+
+                    // dispon&iacute;vel:
+                    xDoc = XDocument.Parse(appBar);
+                    XDocument xDocSaldo = XDocument.Parse(tableSaldo);
+
+
+
+                    foreach (var item in xDocSaldo.Root.Nodes())
+                    {
+                        if (((System.Xml.Linq.XElement)(item)).Value.ToString().Contains("$"))
+                        {
+                            info.getSaldo = ((System.Xml.Linq.XElement)(item)).Value.ToString();
+                            //MessageBox.Show(((System.Xml.Linq.XElement)(item)).Value.ToString());
+                        }
+
                     }
 
+                    foreach (var item in table.Descendants("td"))
+                    {
+
+                        var teste = item.InnerHtml;
+                        //data ultima disponibilizacao
+                        if (item.XPath == "/html[1]/body[1]/table[1]/tr[3]/td[2]")
+                        {
+                            info.DataUltimoBeneficioDataBeneficio = item.InnerHtml;
+                            //MessageBox.Show(item.InnerHtml);
+                        }//valor disponibilizado
+                        else if (item.XPath == "/html[1]/body[1]/table[1]/tr[3]/td[3]")
+                        {
+                            info.ValorUltimoBeneficio = item.InnerHtml;
+                            //MessageBox.Show(item.InnerHtml);
+                        }///data proximo        
+                        else if (item.XPath == "/html[1]/body[1]/table[1]/tr[4]/td[2]")
+                        {
+                            // MessageBox.Show(item.InnerHtml);
+                            info.DataProximoBeneficio = item.InnerHtml;
+                            // MessageBox.Show(item.InnerHtml);
+                        }
+                        /// valor proximo
+                        else if (item.XPath == "/html[1]/body[1]/table[1]/tr[4]/td[3]")
+                        {
+                            info.ValorProximoBeneficio = item.InnerHtml;
+                            // MessageBox.Show(item.InnerHtml);
+                        }
+                        else if (item.XPath == "/html[1]/body[1]/table[1]/tr[1]/td[2]")
+                        {
+                            info.DataConsulta = item.InnerHtml.Substring(0, 10);
+                        }
+                        else if (item.XPath == "/html[1]/body[1]/table[1]/tr[2]/td[2]")
+                        {
+                            info.NumeroCartao = item.InnerHtml;
+                        }
+
+                    }
+
+                    List<VisaValeGastos> c = new List<VisaValeGastos>();
+
+                    foreach (var item in xDoc.Root.Nodes())
+                    {
+                        c.Add(new VisaValeGastos() { Local = ((System.Xml.Linq.XElement)(item)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item)).Value.Substring(((System.Xml.Linq.XElement)(item)).Value.IndexOf("R$")) });
+                    }
+
+                    c.Reverse();
+
+                    listaGastos.ItemsSource = c;
+                    listaGastos.Foreground = new SolidColorBrush(Colors.Black);
+                    var coldata = listaGastos.Columns["Data"];
+                    coldata.Width = new GridLength(80);
+                    var colLocal = listaGastos.Columns["Local"];
+                    colLocal.Width = new GridLength(260);
+                    var colValor = listaGastos.Columns["Valor"];
+                    colValor.Width = new GridLength(140);
+
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        Save();
+                    });
                 }
 
-                foreach (var item in table.Descendants("td"))
-                {
 
-                    var teste = item.InnerHtml;
-                    //data ultima disponibilizacao
-                    if (item.XPath == "/html[1]/body[1]/table[1]/tr[3]/td[2]")
-                    {
-                        info.DataUltimoBeneficioDataBeneficio = item.InnerHtml;
-                        //MessageBox.Show(item.InnerHtml);
-                    }//valor disponibilizado
-                    else if (item.XPath == "/html[1]/body[1]/table[1]/tr[3]/td[3]")
-                    {
-                        info.ValorUltimoBeneficio = item.InnerHtml;
-                        //MessageBox.Show(item.InnerHtml);
-                    }///data proximo        
-                    else if (item.XPath == "/html[1]/body[1]/table[1]/tr[4]/td[2]")
-                    {
-                        // MessageBox.Show(item.InnerHtml);
-                        info.DataProximoBeneficio = item.InnerHtml;
-                        // MessageBox.Show(item.InnerHtml);
-                    }
-                    /// valor proximo
-                    else if (item.XPath == "/html[1]/body[1]/table[1]/tr[4]/td[3]")
-                    {
-                        info.ValorProximoBeneficio = item.InnerHtml;
-                        // MessageBox.Show(item.InnerHtml);
-                    }
-                    else if (item.XPath == "/html[1]/body[1]/table[1]/tr[1]/td[2]")
-                    {
-                        info.DataConsulta = item.InnerHtml.Substring(0, 10);
-                    }
-                    else if (item.XPath == "/html[1]/body[1]/table[1]/tr[2]/td[2]")
-                    {
-                        info.NumeroCartao = item.InnerHtml;
-                    }
-
-                }
-
-                List<VisaValeGastos> c = new List<VisaValeGastos>();
-
-                foreach (var item in xDoc.Root.Nodes())
-                {
-                    c.Add(new VisaValeGastos() { Local = ((System.Xml.Linq.XElement)(item)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item)).Value.Substring(((System.Xml.Linq.XElement)(item)).Value.IndexOf("R$")) });
-                }
-
-                c.Reverse();
-
-                listaGastos.ItemsSource = c;
-                listaGastos.Foreground = new SolidColorBrush(Colors.Black);
-                var coldata = listaGastos.Columns["Data"];
-                coldata.Width = new GridLength(80);
-                var colLocal = listaGastos.Columns["Local"];
-                colLocal.Width = new GridLength(260);
-                var colValor = listaGastos.Columns["Valor"];
-                colValor.Width = new GridLength(140);
                 tbox1.Visibility = Visibility.Collapsed;
                 tbloc1.Visibility = Visibility.Collapsed;
                 cbx1.Visibility = Visibility.Collapsed;
@@ -170,12 +210,14 @@ namespace WebService
                 tblText.DataContext = "Último benefício";
                 tblLast.DataContext = info.ValorUltimoBeneficio.Substring(6);
 
-                tblDateNext.DataContext = info.DataProximoBeneficio != "" ? info.DataProximoBeneficio : "N/D";
+                tblDateNext.DataContext = info.DataProximoBeneficio != null ? info.DataProximoBeneficio : "N/D";
                 tblTextNext.DataContext = "Próximo benefício";
-                tblLastNext.DataContext = info.ValorProximoBeneficio.Substring(6) != "" ? info.ValorProximoBeneficio.Substring(6) : "N/D";
+                tblLastNext.DataContext = info.ValorProximoBeneficio != null ? info.ValorProximoBeneficio.Substring(6) : "N/D";
+
+
 
                 tblTextSaldo.DataContext = "Saldo atual";
-                tblSaldo.DataContext = info.getSaldo;
+                tblSaldo.DataContext = info.getSaldo != null ? info.getSaldo : xDoc.Root.Value.Replace("Saldo ", "");
 
                 tblTextSaldo.Visibility = Visibility.Visible;
                 tblSaldo.Visibility = Visibility.Visible;
@@ -193,9 +235,7 @@ namespace WebService
                 title.DataContext = "Extrato";
                 title.FontSize = 30;
 
-
                 ApplicationBar.Buttons.RemoveAt(0);
-
 
                 this.ApplicationBar = new ApplicationBar();
 
@@ -208,10 +248,7 @@ namespace WebService
                 stackPanel.Visibility = Visibility.Collapsed;
                 this.progressBar.IsIndeterminate = false;
 
-                Dispatcher.BeginInvoke(() =>
-                {
-                    Save();
-                });
+
             }
             else
             {
@@ -233,9 +270,9 @@ namespace WebService
                                         tblText.DataContext = "Último benefício";
                                         tblLast.DataContext = item.ValorUltimoBeneficio.Substring(6);
 
-                                        tblDateNext.DataContext = item.DataProximoBeneficio != "" ? item.DataProximoBeneficio : "N/D";
+                                        tblDateNext.DataContext = item.DataProximoBeneficio != null ? item.DataProximoBeneficio : "N/D";
                                         tblTextNext.DataContext = "Próximo benefício";
-                                        tblLastNext.DataContext = item.ValorProximoBeneficio != "" ? item.ValorProximoBeneficio.Substring(6) : "N/D";
+                                        tblLastNext.DataContext = item.ValorProximoBeneficio != null ? item.ValorProximoBeneficio.Substring(6) : "N/D";
 
                                         tblTextSaldo.DataContext = "Saldo atual";
                                         tblSaldo.DataContext = item.GetSaldo;
@@ -369,27 +406,27 @@ namespace WebService
 
             periodicTask.Description = "My live tile periodic task";
             periodicTask.ExpirationTime = System.DateTime.Now.AddDays(1);
-         
+
             if (ScheduledActionService.Find(periodicTask.Name) != null)
             {
                 ScheduledActionService.Remove("PeriodicAgent");
             }
-         
+
             ScheduledActionService.Add(periodicTask);
 
 
             ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("TileID=2"));
-                       
+
 
             if (TileToFind == null)
             {
-                StandardTileData NewTileData = new StandardTileData();   
+                StandardTileData NewTileData = new StandardTileData();
                 NewTileData.Title = "First";
                 NewTileData.Count = 1;
                 NewTileData.BackTitle = "Second";
                 NewTileData.BackContent = "Second content";
                 NewTileData.BackBackgroundImage = new Uri("isostore:/Shared/ShellContent/testtile.jpg", UriKind.Absolute);
-                
+
 
                 //TileToFind.Update(NewTileData);
                 ShellTile.Create(new Uri("/MainPage.xaml?TileID=2", UriKind.Relative), NewTileData);

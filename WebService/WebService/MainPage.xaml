@@ -58,7 +58,7 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock  Name="tblTextSaldo" Grid.Row="2" Grid.Column="0" FontSize="24"   Foreground="Black"  Text="{Binding}"  Visibility="Collapsed"  />
-                <TextBlock  Name="tblSaldo" Grid.Row="2" Grid.Column="2" FontSize="24"       Foreground="Black" Text="{Binding}"  Visibility="Collapsed"  />
+                <TextBlock  Name="tblSaldo" Grid.Row="2" Grid.Column="2" FontSize="24"       Foreground="Black" Text="{Binding}"   Visibility="Collapsed"  />
                 <TextBlock  Name="tblDate" Grid.Row="0" Grid.Column="0"  FontSize="24"       Foreground="Black"  Text="{Binding}"  Visibility="Collapsed"  />
                 <TextBlock  Name="tblText" Grid.Row="0" Grid.Column="1"  FontSize="24"       Foreground="Black"  Text="{Binding}"  Visibility="Collapsed"  />
                 <TextBlock  Name="tblLast" Grid.Row="0" Grid.Column="2"  FontSize="24"       Foreground="Black"  Text="{Binding}"  Visibility="Collapsed"  />
@@ -70,6 +70,7 @@
 
                 <TextBlock  Name="tblDetalhe" Grid.Row="3" Grid.Column="1"  FontSize="24"    Foreground="Black"  Text="Versão detalhada"  Visibility="Collapsed"  />
                 <CheckBox Content="Salvar" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Height="78" HorizontalAlignment="Left" Margin="172,0,0,0" Name="cbx1" VerticalAlignment="Top" Grid.RowSpan="2" />
+                <TextBlock Visibility="Collapsed" Grid.Row="4" Height="30" FontSize="22"   HorizontalAlignment="Left" Margin="6,59,0,0" Name="tbtMessage" Text="Não há movimentações para este período." Foreground="Black" FontWeight="Bold"  VerticalAlignment="Top" Grid.ColumnSpan="3" Width="438" />
                 <!--<TextBlock  Name="tblSaldo" FontSize="24" FontWeight="Bold" Text="{Binding}"    Visibility="Collapsed"  />
                 <TextBlock  Name="tblNext"  FontSize="24" FontWeight="Bold" Text="{Binding}"    Visibility="Collapsed"  />-->
             </Grid>
