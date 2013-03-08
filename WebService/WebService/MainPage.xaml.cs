@@ -201,7 +201,6 @@ namespace WebService
                     });
                 }
 
-
                 tbox1.Visibility = Visibility.Collapsed;
                 tbloc1.Visibility = Visibility.Collapsed;
                 cbx1.Visibility = Visibility.Collapsed;
