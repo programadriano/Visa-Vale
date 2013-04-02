@@ -1,22 +1,20 @@
 ﻿<phone:PhoneApplicationPage 
-    x:Class="WebService.MainPage"
+    x:Class="WebService.Pages.Pesquisa"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True"
-    xmlns:my1="clr-namespace:C1.Phone.FlexGrid;assembly=C1.Phone.FlexGrid" xmlns:my2="clr-namespace:C1.Phone;assembly=C1.Phone">
+    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True"  xmlns:my1="clr-namespace:C1.Phone.FlexGrid;assembly=C1.Phone.FlexGrid">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot">
-
+    <Grid x:Name="LayoutRoot" >
         <Grid.Background>
             <ImageBrush ImageSource="/Resourses/app_bkg.png"/>
         </Grid.Background>
@@ -30,7 +28,7 @@
             <TextBlock FontWeight="Bold" x:Name="title"  Text="{Binding}" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
-        <!--ContentPanel - place additional content here-->
+
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
 
             <StackPanel Visibility="Collapsed" x:Name="stackPanel" Orientation="Vertical" VerticalAlignment="Center">
@@ -39,8 +37,10 @@
                   Width="480" />
                 <TextBlock Opacity="1" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" 
                   Name="textBlockStatus" Foreground="White" Text="Loading..." />
-            </StackPanel>            
-            <my1:C1FlexGrid IsReadOnly="True"   Margin="12,148,0,0" Name="listaGastos"/>
+            </StackPanel>
+            <TextBox Height="72" HorizontalAlignment="Left" Margin="0,51,0,0" InputScope="Number"  Name="tbox1" Text="" VerticalAlignment="Top" Width="460" />
+            <TextBlock FontWeight="Bold" FontSize="22" Height="30" HorizontalAlignment="Left" Margin="12,28,0,0" Name="tbloc1" Text="Número do cartão:" VerticalAlignment="Top" Width="213" />
+
 
             <Grid Margin="12,13,0,0">
                 <Grid.RowDefinitions>
@@ -55,30 +55,19 @@
                     <ColumnDefinition Width="210"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock  Name="tblTextSaldo" Grid.Row="2" Grid.Column="0" FontSize="24"   Foreground="Black"  Text="{Binding}"   />
-                <TextBlock  Name="tblSaldo" Grid.Row="2" Grid.Column="2" FontSize="24"       Foreground="Black" Text="{Binding}"    />
-                <TextBlock  Name="tblDate" FontSize="24"       Foreground="Black"  Text="{Binding}" Height="35" VerticalAlignment="Top" />
-                <TextBlock  Name="tblText" Grid.Row="0" Grid.Column="1"  FontSize="24"       Foreground="Black"  Text="{Binding}"   />
-                <TextBlock  Name="tblLast" Grid.Row="0" Grid.Column="2"  FontSize="24"       Foreground="Black"  Text="{Binding}"   />
 
-                <TextBlock  Name="tblDateNext" Grid.Row="1" Grid.Column="0"  FontSize="24"       Foreground="Black"  Text="{Binding}"   />
-                <TextBlock  Name="tblTextNext" Grid.Row="1" Grid.Column="1"  FontSize="24"       Foreground="Black"  Text="{Binding}"   />
-                <TextBlock  Name="tblLastNext" Grid.Row="1" Grid.Column="2"  FontSize="24"       Foreground="Black"  Text="{Binding}"   />
-
-
-                <TextBlock  Name="tblDetalhe" Grid.Row="3" Grid.Column="1"  FontSize="24"    Foreground="Black"  Text="Versão detalhada"   />
+                <CheckBox Content="Salvar" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Height="78" HorizontalAlignment="Left" Margin="172,0,0,0" Name="cbx1" VerticalAlignment="Top" Grid.RowSpan="2" />
                 <TextBlock Visibility="Collapsed" Grid.Row="4" Height="30" FontSize="22"   HorizontalAlignment="Left" Margin="6,59,0,0" Name="tbtMessage" Text="Não há movimentações para este período." Foreground="Black" FontWeight="Bold"  VerticalAlignment="Top" Grid.ColumnSpan="3" Width="438" />
-                <!--<TextBlock  Name="tblSaldo" FontSize="24" FontWeight="Bold" Text="{Binding}"    Visibility="Collapsed"  />
-                <TextBlock  Name="tblNext"  FontSize="24" FontWeight="Bold" Text="{Binding}"    Visibility="Collapsed"  />-->
+
             </Grid>
         </Grid>
-        <TextBlock Height="30" HorizontalAlignment="Left" Margin="191,23,0,0" Name="tblDataPesquisa" Text="{Binding}"  VerticalAlignment="Top" Width="262" Grid.RowSpan="2" />
+        <TextBlock Height="30" HorizontalAlignment="Left" Margin="191,23,0,0" Name="tblDataPesquisa" Text="{Binding}" Visibility="Collapsed" VerticalAlignment="Top" Width="262" Grid.RowSpan="2" />
     </Grid>
 
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton x:Name="mButton"        IconUri="/Resourses/appbar.search.png"       Text="pesquisar"/>
+            <shell:ApplicationBarIconButton x:Name="mButton"        IconUri="/Resourses/appbar.search.png"       Click="ConsultarServer" Text="pesquisar"/>
             <!--<shell:ApplicationBarIconButton x:Name="mButtonDelete"   IconUri="/Resourses/ApplicationBar.Cancel.png"                Text="Excluir"/>-->
             <!--<shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="MenuItem 1"/>

@@ -2,3 +2,11 @@ C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\Dominio\Bin\Release
 C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\Dominio\Bin\Release\Dominio.pdb
 C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\Dominio\obj\Release\Dominio.dll
 C:\Users\thiagodasilva\Documents\GitHub\Visa-Vale\WebService\Dominio\obj\Release\Dominio.pdb
+C:\Users\thiagodasilva\Downloads\Visa-Vale-master\Visa-Vale-master\WebService\Dominio\Bin\Release\Dominio.dll
+C:\Users\thiagodasilva\Downloads\Visa-Vale-master\Visa-Vale-master\WebService\Dominio\Bin\Release\Dominio.pdb
+C:\Users\thiagodasilva\Downloads\Visa-Vale-master\Visa-Vale-master\WebService\Dominio\obj\Release\Dominio.dll
+C:\Users\thiagodasilva\Downloads\Visa-Vale-master\Visa-Vale-master\WebService\Dominio\obj\Release\Dominio.pdb
+C:\Users\adriano\Desktop\Visa-Vale-master\Visa-Vale-master\WebService\Dominio\Bin\Release\Dominio.dll
+C:\Users\adriano\Desktop\Visa-Vale-master\Visa-Vale-master\WebService\Dominio\Bin\Release\Dominio.pdb
+C:\Users\adriano\Desktop\Visa-Vale-master\Visa-Vale-master\WebService\Dominio\obj\Release\Dominio.dll
+C:\Users\adriano\Desktop\Visa-Vale-master\Visa-Vale-master\WebService\Dominio\obj\Release\Dominio.pdb

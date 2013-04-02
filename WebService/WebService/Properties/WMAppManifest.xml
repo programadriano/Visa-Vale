@@ -19,7 +19,7 @@
       <Capability Name="ID_CAP_APPOINTMENTS" />
     </Capabilities>
     <Tasks>
-      <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
+      <DefaultTask Name="_default" NavigationPage="/Pages/Pesquisa.xaml" />
       <ExtendedTask Name="BackgroundTask">
         <BackgroundServiceAgent Specifier="ScheduledTaskAgent" Name="VisaValeTaskAgent" Source="VisaValeTaskAgent" Type="VisaValeTaskAgent.ScheduledAgent" />
       </ExtendedTask>

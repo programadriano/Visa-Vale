@@ -28,6 +28,7 @@ using System.IO;
 using System.Windows.Resources;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Phone.Tasks;
+using System.Windows.Navigation;
 
 namespace WebService
 {
@@ -36,8 +37,10 @@ namespace WebService
 
     public partial class MainPage : PhoneApplicationPage
     {
+
         IsolatedStorageSettings _isoSettings;
         private const string conn = @"isostore:/visaVale.sdf";
+        private string numero;
 
         private Informacoes info = new Informacoes();
         private XDocument xDoc;
@@ -45,35 +48,18 @@ namespace WebService
         public MainPage()
         {
             InitializeComponent();
-            title.DataContext = "CONSULTA CARTÕES VISA VALE";
-            title.FontSize = 26;
             _isoSettings = IsolatedStorageSettings.ApplicationSettings;
-            // RegistrarAgente();
-            ConsultaCache();
-        }
+            tblText.DataContext = "Último benefício";
+            tblTextNext.DataContext = "Próximo benefício";
+            tblTextSaldo.DataContext = "Saldo atual";
+            tblDataPesquisa.DataContext = "Data da pesquisa: ";
+            title.DataContext = "Extrato";
+            title.FontSize = 30;
 
-        public void ConsultaCache()
-        {
-            using (var ctx = new visaValeDataContext(conn))
-            {
-                if (ctx.DatabaseExists())
-                {
-                    foreach (var item in ctx.VisaVales)
-                    {
-                        if (item.Id == 1)
-                        {
-                            if (item.SalvarDados == true)
-                            {
-                                tbox1.Text = item.NumeroCartao.ToString();
-                                cbx1.IsChecked = true;
-                            }
-                        }
-                    }
-                }
-
-            }
 
         }
+
+
 
         public void DownloadStringCompleted(object sender, HtmlDocumentLoadCompleted e)
         {
@@ -126,8 +112,6 @@ namespace WebService
                     // dispon&iacute;vel:
                     xDoc = XDocument.Parse(appBar);
                     XDocument xDocSaldo = XDocument.Parse(tableSaldo);
-
-
 
                     foreach (var item in xDocSaldo.Root.Nodes())
                     {
@@ -201,9 +185,9 @@ namespace WebService
                     });
                 }
 
-                tbox1.Visibility = Visibility.Collapsed;
-                tbloc1.Visibility = Visibility.Collapsed;
-                cbx1.Visibility = Visibility.Collapsed;
+
+
+
 
                 tblDate.DataContext = info.DataUltimoBeneficioDataBeneficio;
                 tblText.DataContext = "Último benefício";
@@ -218,18 +202,7 @@ namespace WebService
                 tblTextSaldo.DataContext = "Saldo atual";
                 tblSaldo.DataContext = info.getSaldo != null ? info.getSaldo : xDoc.Root.Value.Replace("Saldo ", "");
 
-                tblTextSaldo.Visibility = Visibility.Visible;
-                tblSaldo.Visibility = Visibility.Visible;
 
-                tblDate.Visibility = Visibility.Visible;
-                tblText.Visibility = Visibility.Visible;
-                tblLast.Visibility = Visibility.Visible;
-
-                tblDateNext.Visibility = Visibility.Visible;
-                tblTextNext.Visibility = Visibility.Visible;
-                tblLastNext.Visibility = Visibility.Visible;
-                tblDataPesquisa.Visibility = Visibility.Visible;
-                tblDetalhe.Visibility = Visibility.Visible;
                 tblDataPesquisa.DataContext = "Data da pesquisa: " + info.DataConsulta;
                 title.DataContext = "Extrato";
                 title.FontSize = 30;
@@ -241,7 +214,7 @@ namespace WebService
                 var newButton = new ApplicationBarIconButton();
                 newButton.IconUri = new Uri("/Resourses/appbar.refresh.png", UriKind.Relative);
                 newButton.Text = "update";
-                newButton.Click += ConsultarServer;
+                newButton.Click += UpdateServer;
 
                 this.ApplicationBar.Buttons.Add(newButton);
                 stackPanel.Visibility = Visibility.Collapsed;
@@ -259,6 +232,7 @@ namespace WebService
                         {
                             var confirm = MessageBox.Show("Não foi possível obter conexão de dados! \n Deseja continuar com as informações da sua última pesquisa ?", "", MessageBoxButton.OKCancel);
 
+
                             if (confirm.ToString() == "OK")
                             {
                                 foreach (var item in ctx.VisaVales)
@@ -266,7 +240,7 @@ namespace WebService
                                     if (item.Id == 1)
                                     {
                                         tblDate.DataContext = item.DataUltimoBeneficioDataBeneficio;
-                                        tblText.DataContext = "Último benefício";
+
                                         tblLast.DataContext = item.ValorUltimoBeneficio.Substring(6);
 
                                         tblDateNext.DataContext = item.DataProximoBeneficio != null ? item.DataProximoBeneficio : "N/D";
@@ -276,19 +250,6 @@ namespace WebService
                                         tblTextSaldo.DataContext = "Saldo atual";
                                         tblSaldo.DataContext = item.GetSaldo;
 
-
-                                        tblTextSaldo.Visibility = Visibility.Visible;
-                                        tblSaldo.Visibility = Visibility.Visible;
-
-                                        tblDate.Visibility = Visibility.Visible;
-                                        tblText.Visibility = Visibility.Visible;
-                                        tblLast.Visibility = Visibility.Visible;
-
-                                        tblDateNext.Visibility = Visibility.Visible;
-                                        tblTextNext.Visibility = Visibility.Visible;
-                                        tblLastNext.Visibility = Visibility.Visible;
-                                        tblDataPesquisa.Visibility = Visibility.Visible;
-                                        tblDetalhe.Visibility = Visibility.Visible;
                                         tblDataPesquisa.DataContext = "Data da pesquisa: " + item.DataConsulta;
                                         title.DataContext = "Extrato";
                                         title.FontSize = 30;
@@ -302,7 +263,7 @@ namespace WebService
                                         var newButton = new ApplicationBarIconButton();
                                         newButton.IconUri = new Uri("/Resourses/appbar.refresh.png", UriKind.Relative);
                                         newButton.Text = "update";
-                                        newButton.Click += ConsultarServer;
+                                        newButton.Click += UpdateServer;
 
                                         this.ApplicationBar.Buttons.Add(newButton);
                                         stackPanel.Visibility = Visibility.Collapsed;
@@ -327,10 +288,6 @@ namespace WebService
                                         colLocal.Width = new GridLength(260);
                                         var colValor = listaGastos.Columns["Valor"];
                                         colValor.Width = new GridLength(140);
-                                        tbox1.Visibility = Visibility.Collapsed;
-                                        tbloc1.Visibility = Visibility.Collapsed;
-                                        cbx1.Visibility = Visibility.Collapsed;
-
 
                                         break;
                                     }
@@ -340,6 +297,7 @@ namespace WebService
                         else if (!ctx.DatabaseExists())
                         {
                             MessageBox.Show("Não foi possível estabelecer conexão com o servidor de dados!");
+                            NavigationService.GoBack();
                         }
                     }
                 }
@@ -349,20 +307,15 @@ namespace WebService
             stackPanel.Visibility = Visibility.Collapsed;
         }
 
-        private void ConsultarServer(object sender, EventArgs e)
+        private void ConsultarServer(string numeroCartao)
         {
-            if (tbox1.Text.Length < 16)
-            {
-                MessageBox.Show("Número de catão inválido!");
-            }
-            else
-            {
-                stackPanel.Visibility = Visibility.Visible;
-                this.progressBar.IsIndeterminate = true;
-                var wc = new HtmlWeb();
-                wc.LoadAsync("http://www.cartoesbeneficio.com.br/inst/convivencia/SaldoExtrato.jsp?numeroCartao=" + tbox1.Text + "", Encoding.UTF8);
-                wc.LoadCompleted += DownloadStringCompleted;
-            }
+
+            stackPanel.Visibility = Visibility.Visible;
+            this.progressBar.IsIndeterminate = true;
+            var wc = new HtmlWeb();
+            wc.LoadAsync("http://www.cartoesbeneficio.com.br/inst/convivencia/SaldoExtrato.jsp?numeroCartao=" + numeroCartao + "", Encoding.UTF8);
+            wc.LoadCompleted += DownloadStringCompleted;
+
 
         }
 
@@ -391,7 +344,7 @@ namespace WebService
                     infoVisa.VisaValeGastos.Add(new VisaValeGasto { Local = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Remove(0, 5).Remove(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("$") - 6), Data = ((System.Xml.Linq.XElement)(item2)).Value.ToString().Substring(0, 5), Valor = ((System.Xml.Linq.XElement)(item2)).Value.Substring(((System.Xml.Linq.XElement)(item2)).Value.IndexOf("R$")) });
                 }
 
-                infoVisa.SalvarDados = cbx1.IsChecked;
+
                 ctx.VisaVales.InsertOnSubmit(infoVisa);
                 ctx.SubmitChanges();
             }
@@ -455,6 +408,28 @@ namespace WebService
             public string Valor { get; set; }
 
         }
+
+        private void UpdateServer(object sender, EventArgs e)
+        {
+
+            stackPanel.Visibility = Visibility.Visible;
+            this.progressBar.IsIndeterminate = true;
+            var wc = new HtmlWeb();
+            wc.LoadAsync("http://www.cartoesbeneficio.com.br/inst/convivencia/SaldoExtrato.jsp?numeroCartao=" + numero + "", Encoding.UTF8);
+            wc.LoadCompleted += DownloadStringCompleted;
+
+
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (NavigationContext.QueryString.TryGetValue("numero", out numero))
+            {
+                ConsultarServer(numero);
+            }
+        }
+
 
     }
 }
